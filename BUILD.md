@@ -88,7 +88,21 @@ Creates:
 
 ### Windows
 - **Building on Windows:** No additional requirements
-- **Cross-platform building:** Requires Wine (Linux/macOS)
+- **Cross-platform building:** Requires Wine and Mono (Linux/macOS)
+
+To install on Linux:
+```bash
+# Ubuntu/Debian
+sudo dpkg --add-architecture i386
+sudo apt-get update
+sudo apt-get install wine wine32 wine64 mono-complete
+
+# Fedora
+sudo dnf install wine mono-complete
+
+# Arch Linux
+sudo pacman -S wine mono
+```
 
 ### macOS
 - **Building on macOS:** No additional requirements  

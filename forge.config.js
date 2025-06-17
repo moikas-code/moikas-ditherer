@@ -6,7 +6,7 @@ export default {
     asar: true,
     name: "MOIKA DITHERER",
     executableName: "moika-ditherer",
-    icon: "./public/icon",
+    // icon: "./public/icon", // Uncomment when you have proper icon files
     out: "./dist/packages",
     ignore: [
       /^\/src\//,
@@ -22,7 +22,7 @@ export default {
   },
   rebuildConfig: {},
   makers: [
-    // Windows
+    // Windows (requires Wine and Mono on Linux/macOS)
     {
       name: "@electron-forge/maker-squirrel",
       platforms: ["win32"],
@@ -30,7 +30,7 @@ export default {
         name: "moika_ditherer",
         authors: "Warren Gates",
         description: "Free app for dithering and creative FX",
-        setupIcon: "./public/icon.ico",
+        // setupIcon: "./public/icon.ico", // Uncomment when you have proper icon files
         iconUrl: "https://raw.githubusercontent.com/warrengates/moi-dither/main/public/icon.ico",
         loadingGif: "./public/loading.gif",
       },
@@ -45,7 +45,7 @@ export default {
       platforms: ["darwin"],
       config: {
         name: "MOIKA DITHERER",
-        icon: "./public/icon.icns",
+        // icon: "./public/icon.icns", // Uncomment when you have proper icon files
         background: "./public/dmg-background.png",
         format: "ULFO",
       },
@@ -60,7 +60,8 @@ export default {
           homepage: "https://github.com/warrengates/moi-dither",
           description: "Free app for dithering and creative FX",
           categories: ["Graphics", "Photography"],
-          icon: "./public/icon.png",
+          // icon: "./public/icon.png", // Uncomment when you have proper icon files
+          bin: "moika-ditherer",
         },
       },
     },
@@ -72,7 +73,7 @@ export default {
           homepage: "https://github.com/warrengates/moi-dither",
           description: "Free app for dithering and creative FX",
           categories: ["Graphics", "Photography"],
-          icon: "./public/icon.png",
+          // icon: "./public/icon.png", // Uncomment when you have proper icon files
         },
       },
     },
