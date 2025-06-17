@@ -2,6 +2,8 @@
   "name": "moi-dither",
   "version": "1.0.0",
   "description": "Free app for dithering and creative FX",
+  "author": "Warren Gates",
+  "license": "MIT",
   "main": "dist/main/index.js",
   "private": true,
   "scripts": {
@@ -16,7 +18,7 @@
     "make:win": "electron-forge make --platform win32",
     "make:mac": "electron-forge make --platform darwin",
     "make:linux": "electron-forge make --platform linux",
-    "make:all": "npm run make:win && npm run make:mac && npm run make:linux",
+    "make:all": "npm run make:win && npm run make:linux",
     "dist": "npm run build && npm run make:all",
     "test": "vitest",
     "test:ui": "vitest --ui",

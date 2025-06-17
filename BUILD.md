@@ -52,11 +52,23 @@ bun run package
 
 ### Create Distributables
 
-#### All Platforms
+#### Build All Supported Platforms
 ```bash
-# Build and create distributables for all platforms
+# Build Windows and Linux packages (from Linux)
 bun run dist
+
+# Build all three platforms (only works on macOS)
+bun run make:win && bun run make:mac && bun run make:linux
 ```
+
+**Platform Build Matrix:**
+| From Platform | Can Build For | Requirements |
+|---------------|---------------|--------------|
+| Windows       | Windows, Linux | WSL for Linux builds |
+| Linux         | Windows, Linux | Wine/Mono for Windows |
+| macOS         | Windows, Linux, macOS | Wine for Windows |
+
+**Note:** macOS packages can ONLY be built on macOS due to Apple's code signing requirements.
 
 #### Specific Platforms
 
@@ -174,14 +186,43 @@ bun run build
 
 ## Distribution
 
-### Automated Builds
-Consider using GitHub Actions or similar CI/CD for automated cross-platform builds.
+### Automated Builds with GitHub Actions
+
+This project includes GitHub Actions workflows for automated cross-platform builds:
+
+1. **Continuous Integration (CI)** - Runs on every push and PR:
+   - Linting and type checking
+   - Running tests
+   - Building the application
+
+2. **Build and Release** - Creates distributables for all platforms:
+   - Triggers on tags (e.g., `v1.0.0`) or manual dispatch
+   - Builds for Windows, macOS, and Linux
+   - Automatically creates GitHub releases with artifacts
+
+#### Creating a Release
+
+1. Update version in `package.json`
+2. Commit and push changes
+3. Create and push a version tag:
+   ```bash
+   git tag v1.0.0
+   git push origin v1.0.0
+   ```
+4. GitHub Actions will automatically:
+   - Build for all platforms
+   - Run tests
+   - Create a GitHub release with all distributables
+
+#### Manual Trigger
+
+You can also manually trigger builds from the GitHub Actions tab in your repository.
 
 ### Manual Distribution
-Upload the generated packages to your preferred distribution method:
-- GitHub Releases
-- App stores
-- Direct download from website
+Generated packages can be distributed via:
+- GitHub Releases (automatic with tags)
+- App stores (Mac App Store, Microsoft Store, etc.)
+- Direct download from your website
 
 ## Security Notes
 
