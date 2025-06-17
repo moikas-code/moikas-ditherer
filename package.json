@@ -20,7 +20,7 @@
     "make:linux": "electron-forge make --platform linux",
     "make:all": "npm run make:win && npm run make:linux",
     "dist": "npm run build && npm run make:all",
-    "test": "vitest",
+    "test": "bun test --preload ./tests/setup.ts",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage",
     "lint": "tsc --noEmit",
