@@ -1,6 +1,22 @@
-# Moi-DIITHER
+# MOIKA DITHERER
 
 Free app for dithering and creative FX, created by Warren Gates and available for macOS, Linux and Windows.
+
+## Download
+
+### Latest Release
+Download the latest stable version from the [Releases page](https://github.com/moikas-code/moikas-ditherer/releases/latest).
+
+### Development Builds
+Get the latest development build from the [Development Release](https://github.com/moikas-code/moikas-ditherer/releases/tag/development).
+
+**Choose your platform:**
+- **Windows**: Download the `.exe` installer
+- **macOS**: Download the `.dmg` or `.zip` file  
+- **Linux**: Download the `.deb` (Debian/Ubuntu) or `.rpm` (Fedora/RHEL) package
+
+### Auto-Updates
+The app will automatically check for updates and notify you when a new version is available.
 
 ## Features
 
