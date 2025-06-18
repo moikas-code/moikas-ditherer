@@ -5,9 +5,19 @@ const { autoUpdater } = require('electron-updater');
 let mainWindow: any = null;
 
 // Configure auto-updater
-autoUpdater.checkForUpdatesAndNotify();
 autoUpdater.autoDownload = true;
 autoUpdater.autoInstallOnAppQuit = true;
+
+// Set the feed URL for GitHub releases
+const server = 'https://update.electronjs.org';
+const feed = `${server}/moikas-code/moikas-ditherer/${process.platform}/${app.getVersion()}`;
+
+// Configure update feed
+autoUpdater.setFeedURL({
+  provider: 'github',
+  owner: 'moikas-code',
+  repo: 'moikas-ditherer',
+} as any);
 
 // Auto-updater events
 autoUpdater.on('checking-for-update', () => {
@@ -23,7 +33,14 @@ autoUpdater.on('update-not-available', () => {
 });
 
 autoUpdater.on('error', (err: any) => {
-  console.log('Error in auto-updater:', err);
+  console.error('Error in auto-updater:', err);
+  // Optionally show error to user in production
+  if (!(global as any).isDev && mainWindow) {
+    dialog.showErrorBox('Update Error', 
+      'There was an error checking for updates. The app will continue to work normally.\n\n' + 
+      'Error details: ' + err.message
+    );
+  }
 });
 
 autoUpdater.on('download-progress', (progressObj: any) => {
@@ -64,6 +81,7 @@ const createWindow = () => {
   });
 
   const isDev = process.env.NODE_ENV === 'development' || process.argv.includes('--dev');
+  (global as any).isDev = isDev; // Store for use in other places
   
   if (isDev) {
     mainWindow.loadURL('http://localhost:3000');
@@ -152,8 +170,13 @@ app.whenReady().then(() => {
   createWindow();
   createMenu();
 
-  // Check for updates after app is ready
-  autoUpdater.checkForUpdatesAndNotify();
+  // Check for updates after app is ready (only in production)
+  const isDev = process.env.NODE_ENV === 'development' || process.argv.includes('--dev');
+  if (!isDev) {
+    setTimeout(() => {
+      autoUpdater.checkForUpdatesAndNotify();
+    }, 3000); // Delay to ensure window is ready
+  }
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {

@@ -1,0 +1,69 @@
+appId: com.moikas.ditherer
+productName: "MOIKA DITHERER"
+directories:
+  output: dist/packages
+  buildResources: public
+
+publish:
+  provider: github
+  owner: moikas-code
+  repo: moikas-ditherer
+  releaseType: release
+
+# Generate auto-updater files
+generateUpdatesFilesForAllChannels: true
+
+# File associations
+fileAssociations:
+  - ext: png
+    name: PNG Image
+    role: Editor
+  - ext: jpg
+    name: JPEG Image
+    role: Editor
+  - ext: jpeg
+    name: JPEG Image
+    role: Editor
+  - ext: gif
+    name: GIF Image
+    role: Editor
+  - ext: bmp
+    name: Bitmap Image
+    role: Editor
+  - ext: webp
+    name: WebP Image
+    role: Editor
+
+# Platform-specific configuration
+mac:
+  category: public.app-category.photography
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  entitlements: build/entitlements.mac.plist
+  entitlementsInherit: build/entitlements.mac.plist
+  icon: public/moika_ditherer_icon.icns
+
+win:
+  target:
+    - nsis
+    - portable
+  icon: public/moika_ditherer_icon.ico
+
+linux:
+  target:
+    - AppImage
+    - deb
+    - rpm
+  category: Graphics
+  icon: public/moika_ditherer_icon.png
+
+# NSIS installer configuration for Windows
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  allowElevation: true
+  installerIcon: public/moika_ditherer_icon.ico
+  uninstallerIcon: public/moika_ditherer_icon.ico
+  installerHeaderIcon: public/moika_ditherer_icon.ico
+  createDesktopShortcut: true
+  createStartMenuShortcut: true

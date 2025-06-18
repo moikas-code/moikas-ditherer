@@ -52,6 +52,12 @@ jobs:
         run: bunx electron-forge make --platform ${{ matrix.platform }}
         env:
           NODE_ENV: production
+          
+      - name: Generate update metadata files
+        run: |
+          # Copy app-update.yml to dist for inclusion in builds
+          mkdir -p dist
+          cp app-update.yml dist/app-update.yml || true
 
       - name: List build outputs (Unix)
         if: matrix.os != 'windows-latest'
@@ -70,6 +76,20 @@ jobs:
           echo === File details ===
           dir /s out\make
 
+      - name: Generate Windows update metadata
+        if: matrix.os == 'windows-latest'
+        run: |
+          echo "channels:" > latest.yml
+          echo "  - latest" >> latest.yml
+          echo "version: ${{ github.ref_name }}" | sed 's/^v//' >> latest.yml
+          echo "files:" >> latest.yml
+          echo "  - url: moika-ditherer-setup.exe" >> latest.yml
+          echo "    sha512: PLACEHOLDER" >> latest.yml
+          echo "    size: PLACEHOLDER" >> latest.yml
+          echo "path: moika-ditherer-setup.exe" >> latest.yml
+          echo "sha512: PLACEHOLDER" >> latest.yml
+          echo "releaseDate: $(date -u +"%Y-%m-%dT%H:%M:%S.000Z")" >> latest.yml
+          
       - name: Upload artifacts (Windows)
         if: matrix.os == 'windows-latest'
         uses: actions/upload-artifact@v4
@@ -79,9 +99,22 @@ jobs:
             out/make/squirrel.windows/**/*.exe
             out/make/squirrel.windows/**/*.nupkg
             out/make/squirrel.windows/**/RELEASES
+            latest.yml
           if-no-files-found: error
           retention-days: 30
 
+      - name: Generate macOS update metadata
+        if: matrix.os == 'macos-latest'
+        run: |
+          echo "version: ${GITHUB_REF_NAME#v}" > latest-mac.yml
+          echo "files:" >> latest-mac.yml
+          echo "  - url: MOIKA-DITHERER.dmg" >> latest-mac.yml
+          echo "    sha512: PLACEHOLDER" >> latest-mac.yml
+          echo "    size: PLACEHOLDER" >> latest-mac.yml
+          echo "path: MOIKA-DITHERER.dmg" >> latest-mac.yml
+          echo "sha512: PLACEHOLDER" >> latest-mac.yml
+          echo "releaseDate: $(date -u +"%Y-%m-%dT%H:%M:%S.000Z")" >> latest-mac.yml
+          
       - name: Upload artifacts (macOS)
         if: matrix.os == 'macos-latest'
         uses: actions/upload-artifact@v4
@@ -91,9 +124,22 @@ jobs:
             out/make/*.dmg
             out/make/zip/**/*.zip
             out/make/*.zip
+            latest-mac.yml
           if-no-files-found: error
           retention-days: 30
 
+      - name: Generate Linux update metadata
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          echo "version: ${GITHUB_REF_NAME#v}" > latest-linux.yml
+          echo "files:" >> latest-linux.yml
+          echo "  - url: moika-ditherer.AppImage" >> latest-linux.yml
+          echo "    sha512: PLACEHOLDER" >> latest-linux.yml
+          echo "    size: PLACEHOLDER" >> latest-linux.yml
+          echo "path: moika-ditherer.AppImage" >> latest-linux.yml
+          echo "sha512: PLACEHOLDER" >> latest-linux.yml
+          echo "releaseDate: $(date -u +"%Y-%m-%dT%H:%M:%S.000Z")" >> latest-linux.yml
+          
       - name: Upload artifacts (Linux)
         if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v4
@@ -105,6 +151,7 @@ jobs:
             out/make/*.deb
             out/make/*.rpm
             out/make/*.AppImage
+            latest-linux.yml
           if-no-files-found: error
           retention-days: 30
 
@@ -181,5 +228,8 @@ jobs:
             artifacts/**/*.AppImage
             artifacts/**/*.nupkg
             artifacts/**/RELEASES
+            artifacts/**/latest.yml
+            artifacts/**/latest-mac.yml
+            artifacts/**/latest-linux.yml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
