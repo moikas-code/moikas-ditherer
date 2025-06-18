@@ -196,10 +196,10 @@ export const scale_image = (
       const src_index = (src_y * source.width + src_x) * 4;
       const dst_index = (y * new_width + x) * 4;
       
-      result.data[dst_index] = source.data[src_index];
-      result.data[dst_index + 1] = source.data[src_index + 1];
-      result.data[dst_index + 2] = source.data[src_index + 2];
-      result.data[dst_index + 3] = source.data[src_index + 3];
+      result.data[dst_index] = source.data[src_index] ?? 0;
+      result.data[dst_index + 1] = source.data[src_index + 1] ?? 0;
+      result.data[dst_index + 2] = source.data[src_index + 2] ?? 0;
+      result.data[dst_index + 3] = source.data[src_index + 3] ?? 255;
     }
   }
 

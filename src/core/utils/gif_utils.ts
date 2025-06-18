@@ -53,7 +53,7 @@ export const parse_gif_file = async (arrayBuffer: ArrayBuffer): Promise<Animated
     frames: gif_frames,
     width,
     height,
-    loop: gif.loopCount,
+    loop: 0, // Default to infinite loop
   };
 };
 

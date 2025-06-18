@@ -1,5 +1,4 @@
 import type { AnimatedImage, GifFrame } from '@/types';
-import type { ProcessingOptions } from '../processor';
 
 interface OptimizationOptions {
   reduceColors?: boolean;
@@ -10,7 +9,6 @@ interface OptimizationOptions {
 
 export class GifOptimizer {
   private worker_pool: Worker[] = [];
-  private current_worker = 0;
 
   constructor(worker_count: number = navigator.hardwareConcurrency || 4) {
     // We'll use web workers for parallel processing in the future
@@ -143,7 +141,6 @@ export const process_gif_in_chunks = async (
   on_progress?: (progress: number) => void
 ): Promise<GifFrame[]> => {
   const result: GifFrame[] = [];
-  const total_chunks = Math.ceil(frames.length / chunk_size);
   
   for (let i = 0; i < frames.length; i += chunk_size) {
     const chunk = frames.slice(i, i + chunk_size);

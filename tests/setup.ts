@@ -15,8 +15,8 @@ beforeAll(() => {
     height: number;
     colorSpace: string = 'srgb';
 
-    constructor(width: number, height: number, settings?: any) {
-      if (width instanceof Uint8ClampedArray) {
+    constructor(width: any, height: number, settings?: any) {
+      if (typeof width === 'object' && width instanceof Uint8ClampedArray) {
         // Handle new ImageData(data, width, height) constructor
         const data = width;
         this.width = height;

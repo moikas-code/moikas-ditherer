@@ -48,9 +48,9 @@ describe('GifOptimizer', () => {
       });
 
       expect(optimized.frames).toHaveLength(3);
-      expect(optimized.frames[0].delay).toBe(100); // 50 + 50
-      expect(optimized.frames[1].delay).toBe(100); // 50 + 50
-      expect(optimized.frames[2].delay).toBe(50);
+      expect(optimized.frames[0]!.delay).toBe(100); // 50 + 50
+      expect(optimized.frames[1]!.delay).toBe(100); // 50 + 50
+      expect(optimized.frames[2]!.delay).toBe(50);
     });
   });
 
@@ -93,13 +93,13 @@ describe('GifOptimizer', () => {
       });
 
       // Check that colors were quantized
-      const frame1_color = optimized.frames[0].data.data[0];
-      const frame2_color = optimized.frames[1].data.data[0];
+      const frame1_color = optimized.frames[0]?.data.data[0];
+      const frame2_color = optimized.frames[1]?.data.data[0];
       
       // Colors should be quantized (factor = 256 / 16^(1/3) ≈ 64)
       const factor = Math.ceil(256 / Math.pow(16, 1/3));
-      expect(frame1_color % factor).toBe(0);
-      expect(frame2_color % factor).toBe(0);
+      expect(frame1_color! % factor).toBe(0);
+      expect(frame2_color! % factor).toBe(0);
     });
   });
 });

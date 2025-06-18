@@ -27,7 +27,7 @@ export const chunk_processing = <T>(
   process_next_chunk();
 };
 
-export const create_worker_pool = (worker_count: number = navigator.hardwareConcurrency || 4) => {
+export const create_worker_pool = () => {
   const workers: Worker[] = [];
   let current_worker = 0;
 
