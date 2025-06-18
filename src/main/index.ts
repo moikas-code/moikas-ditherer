@@ -41,7 +41,7 @@ autoUpdater.on('update-downloaded', (info: any) => {
     title: 'Update Ready',
     message: 'A new version has been downloaded. Restart the app to apply the update.',
     buttons: ['Restart', 'Later']
-  }).then((result) => {
+  }).then((result: any) => {
     if (result.response === 0) {
       autoUpdater.quitAndInstall();
     }
