@@ -79,6 +79,19 @@ export default {
       },
     },
   ],
+  publishers: [
+    {
+      name: "@electron-forge/publisher-github",
+      config: {
+        repository: {
+          owner: "moikas-code",
+          name: "moikas-ditherer"
+        },
+        prerelease: false,
+        draft: false
+      }
+    }
+  ],
   plugins: [
     {
       name: "@electron-forge/plugin-auto-unpack-natives",

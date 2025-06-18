@@ -1,0 +1,107 @@
+name: Development Release
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            platform: linux
+          - os: windows-latest
+            platform: win32
+          - os: macos-latest
+            platform: darwin
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build application
+        run: bun run build
+
+      - name: Make distributables
+        run: bunx electron-forge make --platform ${{ matrix.platform }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.os }}-builds
+          path: |
+            out/make/**/*.exe
+            out/make/**/*.deb
+            out/make/**/*.rpm
+            out/make/**/*.dmg
+            out/make/**/*.zip
+          retention-days: 90
+
+  release:
+    name: Create Development Release
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Display structure
+        run: |
+          echo "=== Artifact structure ==="
+          find artifacts -type f -name "*.exe" -o -name "*.deb" -o -name "*.rpm" -o -name "*.dmg" -o -name "*.zip" | sort
+
+      - name: Delete old development release
+        uses: dev-drprasad/delete-tag-and-release@v1.0
+        with:
+          tag_name: development
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+
+      - name: Create Development Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: development
+          name: Development Build
+          body: |
+            ## Latest Development Build
+            
+            This is an automated development build from the latest main branch.
+            
+            **⚠️ Warning:** This is a development build and may be unstable.
+            
+            ### Downloads
+            - **Windows:** Download the `.exe` file
+            - **macOS:** Download the `.dmg` or `.zip` file
+            - **Linux:** Download the `.deb` or `.rpm` file
+            
+            ---
+            Built from commit: ${{ github.sha }}
+            Build date: ${{ github.event.head_commit.timestamp }}
+          draft: false
+          prerelease: true
+          files: |
+            artifacts/**/*.exe
+            artifacts/**/*.deb
+            artifacts/**/*.rpm
+            artifacts/**/*.dmg
+            artifacts/**/*.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

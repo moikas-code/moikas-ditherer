@@ -59,6 +59,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
     
     steps:
       - name: Checkout code
@@ -77,12 +79,16 @@ jobs:
         with:
           draft: false
           prerelease: false
+          generate_release_notes: true
           files: |
             artifacts/distributables-windows-latest/**/*.exe
+            artifacts/distributables-windows-latest/**/*.nupkg
+            artifacts/distributables-windows-latest/**/RELEASES
             artifacts/distributables-ubuntu-latest/**/*.deb
             artifacts/distributables-ubuntu-latest/**/*.rpm
-            artifacts/distributables-ubuntu-latest/**/*.flatpak
+            artifacts/distributables-ubuntu-latest/**/*.AppImage
             artifacts/distributables-macos-latest/**/*.dmg
             artifacts/distributables-macos-latest/**/*.zip
+            artifacts/distributables-macos-latest/**/latest-mac.yml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
