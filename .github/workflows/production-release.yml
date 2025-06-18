@@ -49,12 +49,22 @@ jobs:
       - name: Make distributables
         run: bunx electron-forge make --platform ${{ matrix.platform }}
 
-      - name: List build outputs
+      - name: List build outputs (Unix)
+        if: matrix.os != 'windows-latest'
         run: |
           echo "=== Build outputs ==="
           find out/make -type f | sort
           echo "=== File sizes ==="
           find out/make -type f -exec ls -lh {} \;
+
+      - name: List build outputs (Windows)
+        if: matrix.os == 'windows-latest'
+        shell: cmd
+        run: |
+          echo === Build outputs ===
+          dir /s /b out\make
+          echo === File details ===
+          dir /s out\make
 
       - name: Upload artifacts (Windows)
         if: matrix.os == 'windows-latest'
