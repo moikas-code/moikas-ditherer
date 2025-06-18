@@ -74,6 +74,7 @@ export default {
           description: "Free app for dithering and creative FX",
           categories: ["Graphics", "Photography"],
           // icon: "./public/icon.png", // Uncomment when you have proper icon files
+          bin: "moika-ditherer",
         },
       },
     },
