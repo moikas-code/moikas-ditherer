@@ -8,11 +8,7 @@ let mainWindow: any = null;
 autoUpdater.autoDownload = true;
 autoUpdater.autoInstallOnAppQuit = true;
 
-// Set the feed URL for GitHub releases
-const server = 'https://update.electronjs.org';
-const feed = `${server}/moikas-code/moikas-ditherer/${process.platform}/${app.getVersion()}`;
-
-// Configure update feed
+// Configure update feed for GitHub releases
 autoUpdater.setFeedURL({
   provider: 'github',
   owner: 'moikas-code',
