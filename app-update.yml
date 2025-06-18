@@ -1,0 +1,5 @@
+provider: github
+owner: moikas-code
+repo: moikas-ditherer
+releaseType: release
+updaterCacheDirName: moika-ditherer-updater
