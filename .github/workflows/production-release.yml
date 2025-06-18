@@ -78,17 +78,38 @@ jobs:
 
       - name: Generate Windows update metadata
         if: matrix.os == 'windows-latest'
+        shell: bash
         run: |
-          echo "channels:" > latest.yml
-          echo "  - latest" >> latest.yml
-          echo "version: ${{ github.ref_name }}" | sed 's/^v//' >> latest.yml
-          echo "files:" >> latest.yml
-          echo "  - url: moika-ditherer-setup.exe" >> latest.yml
-          echo "    sha512: PLACEHOLDER" >> latest.yml
-          echo "    size: PLACEHOLDER" >> latest.yml
-          echo "path: moika-ditherer-setup.exe" >> latest.yml
-          echo "sha512: PLACEHOLDER" >> latest.yml
-          echo "releaseDate: $(date -u +"%Y-%m-%dT%H:%M:%S.000Z")" >> latest.yml
+          # Find the setup exe file
+          SETUP_FILE=$(find out/make -name "*Setup*.exe" -o -name "*setup*.exe" | head -1)
+          if [ -z "$SETUP_FILE" ]; then
+            echo "Error: Setup file not found"
+            exit 1
+          fi
+          
+          # Calculate SHA512 hash and file size
+          SHA512_HASH=$(sha512sum "$SETUP_FILE" | cut -d' ' -f1)
+          FILE_SIZE=$(stat -c%s "$SETUP_FILE" 2>/dev/null || stat -f%z "$SETUP_FILE" 2>/dev/null)
+          FILE_NAME=$(basename "$SETUP_FILE")
+          VERSION="${GITHUB_REF_NAME#v}"
+          
+          # Generate latest.yml
+          cat > latest.yml << EOF
+version: ${VERSION}
+files:
+  - url: ${FILE_NAME}
+    sha512: ${SHA512_HASH}
+    size: ${FILE_SIZE}
+path: ${FILE_NAME}
+sha512: ${SHA512_HASH}
+releaseDate: $(date -u +"%Y-%m-%dT%H:%M:%S.000Z")
+EOF
+          
+          # Copy setup file to root for easier access
+          cp "$SETUP_FILE" "./${FILE_NAME}"
+          
+          echo "Generated latest.yml:"
+          cat latest.yml
           
       - name: Upload artifacts (Windows)
         if: matrix.os == 'windows-latest'
@@ -100,20 +121,44 @@ jobs:
             out/make/squirrel.windows/**/*.nupkg
             out/make/squirrel.windows/**/RELEASES
             latest.yml
+            ./*Setup*.exe
+            ./*setup*.exe
           if-no-files-found: error
           retention-days: 30
 
       - name: Generate macOS update metadata
         if: matrix.os == 'macos-latest'
         run: |
-          echo "version: ${GITHUB_REF_NAME#v}" > latest-mac.yml
-          echo "files:" >> latest-mac.yml
-          echo "  - url: MOIKA-DITHERER.dmg" >> latest-mac.yml
-          echo "    sha512: PLACEHOLDER" >> latest-mac.yml
-          echo "    size: PLACEHOLDER" >> latest-mac.yml
-          echo "path: MOIKA-DITHERER.dmg" >> latest-mac.yml
-          echo "sha512: PLACEHOLDER" >> latest-mac.yml
-          echo "releaseDate: $(date -u +"%Y-%m-%dT%H:%M:%S.000Z")" >> latest-mac.yml
+          # Find the DMG file
+          DMG_FILE=$(find out/make -name "*.dmg" | head -1)
+          if [ -z "$DMG_FILE" ]; then
+            echo "Error: DMG file not found"
+            exit 1
+          fi
+          
+          # Calculate SHA512 hash and file size
+          SHA512_HASH=$(shasum -a 512 "$DMG_FILE" | cut -d' ' -f1)
+          FILE_SIZE=$(stat -f%z "$DMG_FILE")
+          FILE_NAME=$(basename "$DMG_FILE")
+          VERSION="${GITHUB_REF_NAME#v}"
+          
+          # Generate latest-mac.yml
+          cat > latest-mac.yml << EOF
+version: ${VERSION}
+files:
+  - url: ${FILE_NAME}
+    sha512: ${SHA512_HASH}
+    size: ${FILE_SIZE}
+path: ${FILE_NAME}
+sha512: ${SHA512_HASH}
+releaseDate: $(date -u +"%Y-%m-%dT%H:%M:%S.000Z")
+EOF
+          
+          # Copy DMG file to root for easier access
+          cp "$DMG_FILE" "./${FILE_NAME}"
+          
+          echo "Generated latest-mac.yml:"
+          cat latest-mac.yml
           
       - name: Upload artifacts (macOS)
         if: matrix.os == 'macos-latest'
@@ -125,20 +170,43 @@ jobs:
             out/make/zip/**/*.zip
             out/make/*.zip
             latest-mac.yml
+            ./*.dmg
           if-no-files-found: error
           retention-days: 30
 
       - name: Generate Linux update metadata
         if: matrix.os == 'ubuntu-latest'
         run: |
-          echo "version: ${GITHUB_REF_NAME#v}" > latest-linux.yml
-          echo "files:" >> latest-linux.yml
-          echo "  - url: moika-ditherer.AppImage" >> latest-linux.yml
-          echo "    sha512: PLACEHOLDER" >> latest-linux.yml
-          echo "    size: PLACEHOLDER" >> latest-linux.yml
-          echo "path: moika-ditherer.AppImage" >> latest-linux.yml
-          echo "sha512: PLACEHOLDER" >> latest-linux.yml
-          echo "releaseDate: $(date -u +"%Y-%m-%dT%H:%M:%S.000Z")" >> latest-linux.yml
+          # Find the AppImage file
+          APPIMAGE_FILE=$(find out/make -name "*.AppImage" | head -1)
+          if [ -z "$APPIMAGE_FILE" ]; then
+            echo "Error: AppImage file not found"
+            exit 1
+          fi
+          
+          # Calculate SHA512 hash and file size
+          SHA512_HASH=$(sha512sum "$APPIMAGE_FILE" | cut -d' ' -f1)
+          FILE_SIZE=$(stat -c%s "$APPIMAGE_FILE")
+          FILE_NAME=$(basename "$APPIMAGE_FILE")
+          VERSION="${GITHUB_REF_NAME#v}"
+          
+          # Generate latest-linux.yml
+          cat > latest-linux.yml << EOF
+version: ${VERSION}
+files:
+  - url: ${FILE_NAME}
+    sha512: ${SHA512_HASH}
+    size: ${FILE_SIZE}
+path: ${FILE_NAME}
+sha512: ${SHA512_HASH}
+releaseDate: $(date -u +"%Y-%m-%dT%H:%M:%S.000Z")
+EOF
+          
+          # Copy AppImage file to root for easier access
+          cp "$APPIMAGE_FILE" "./${FILE_NAME}"
+          
+          echo "Generated latest-linux.yml:"
+          cat latest-linux.yml
           
       - name: Upload artifacts (Linux)
         if: matrix.os == 'ubuntu-latest'
@@ -152,6 +220,7 @@ jobs:
             out/make/*.rpm
             out/make/*.AppImage
             latest-linux.yml
+            ./*.AppImage
           if-no-files-found: error
           retention-days: 30
 

@@ -170,7 +170,12 @@ app.whenReady().then(() => {
   const isDev = process.env.NODE_ENV === 'development' || process.argv.includes('--dev');
   if (!isDev) {
     setTimeout(() => {
-      autoUpdater.checkForUpdatesAndNotify();
+      try {
+        autoUpdater.checkForUpdatesAndNotify();
+      } catch (error) {
+        console.error('Auto-updater error:', error);
+        // Silently fail - don't show error to user
+      }
     }, 3000); // Delay to ensure window is ready
   }
 
