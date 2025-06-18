@@ -167,6 +167,7 @@ export const App: React.FC = () => {
   }, [original_image, original_animated, dithering_method, active_effects, debounced_settings, debounced_palette, process_current_image, process_current_animated]);
 
   const handle_save = useCallback(async () => {
+    // Check media type first to ensure only one save dialog appears
     if (media_type === 'gif' && processed_animated) {
       // Save as GIF
       const { encode_gif } = await import('@core/utils/gif_utils');
@@ -199,8 +200,8 @@ export const App: React.FC = () => {
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
       }
-    } else if (processed_image && canvas_ref.current) {
-      // Save as static image
+    } else if (media_type === 'image' && processed_image && canvas_ref.current) {
+      // Save as static image - only when media_type is 'image'
       const canvas = canvas_ref.current;
       canvas.width = processed_image.width;
       canvas.height = processed_image.height;
@@ -339,6 +340,7 @@ export const App: React.FC = () => {
             set_settings(DEFAULT_SETTINGS);
             set_palette(DEFAULT_PALETTE);
           }}
+          onExport={(processed_image || processed_animated) ? handle_save : undefined}
           disabled={!original_image && !original_animated}
         />
       </div>
