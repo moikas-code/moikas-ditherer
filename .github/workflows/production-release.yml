@@ -92,18 +92,19 @@ jobs:
           FILE_SIZE=$(stat -c%s "$SETUP_FILE" 2>/dev/null || stat -f%z "$SETUP_FILE" 2>/dev/null)
           FILE_NAME=$(basename "$SETUP_FILE")
           VERSION="${GITHUB_REF_NAME#v}"
+          RELEASE_DATE=$(date -u +"%Y-%m-%dT%H:%M:%S.000Z")
           
           # Generate latest.yml
-          cat > latest.yml << EOF
-version: ${VERSION}
-files:
-  - url: ${FILE_NAME}
-    sha512: ${SHA512_HASH}
-    size: ${FILE_SIZE}
-path: ${FILE_NAME}
-sha512: ${SHA512_HASH}
-releaseDate: $(date -u +"%Y-%m-%dT%H:%M:%S.000Z")
-EOF
+          cat > latest.yml <<EOL
+          version: ${VERSION}
+          files:
+            - url: ${FILE_NAME}
+              sha512: ${SHA512_HASH}
+              size: ${FILE_SIZE}
+          path: ${FILE_NAME}
+          sha512: ${SHA512_HASH}
+          releaseDate: ${RELEASE_DATE}
+          EOL
           
           # Copy setup file to root for easier access
           cp "$SETUP_FILE" "./${FILE_NAME}"
@@ -141,18 +142,19 @@ EOF
           FILE_SIZE=$(stat -f%z "$DMG_FILE")
           FILE_NAME=$(basename "$DMG_FILE")
           VERSION="${GITHUB_REF_NAME#v}"
+          RELEASE_DATE=$(date -u +"%Y-%m-%dT%H:%M:%S.000Z")
           
           # Generate latest-mac.yml
-          cat > latest-mac.yml << EOF
-version: ${VERSION}
-files:
-  - url: ${FILE_NAME}
-    sha512: ${SHA512_HASH}
-    size: ${FILE_SIZE}
-path: ${FILE_NAME}
-sha512: ${SHA512_HASH}
-releaseDate: $(date -u +"%Y-%m-%dT%H:%M:%S.000Z")
-EOF
+          cat > latest-mac.yml <<EOL
+          version: ${VERSION}
+          files:
+            - url: ${FILE_NAME}
+              sha512: ${SHA512_HASH}
+              size: ${FILE_SIZE}
+          path: ${FILE_NAME}
+          sha512: ${SHA512_HASH}
+          releaseDate: ${RELEASE_DATE}
+          EOL
           
           # Copy DMG file to root for easier access
           cp "$DMG_FILE" "./${FILE_NAME}"
@@ -189,18 +191,19 @@ EOF
           FILE_SIZE=$(stat -c%s "$APPIMAGE_FILE")
           FILE_NAME=$(basename "$APPIMAGE_FILE")
           VERSION="${GITHUB_REF_NAME#v}"
+          RELEASE_DATE=$(date -u +"%Y-%m-%dT%H:%M:%S.000Z")
           
           # Generate latest-linux.yml
-          cat > latest-linux.yml << EOF
-version: ${VERSION}
-files:
-  - url: ${FILE_NAME}
-    sha512: ${SHA512_HASH}
-    size: ${FILE_SIZE}
-path: ${FILE_NAME}
-sha512: ${SHA512_HASH}
-releaseDate: $(date -u +"%Y-%m-%dT%H:%M:%S.000Z")
-EOF
+          cat > latest-linux.yml <<EOL
+          version: ${VERSION}
+          files:
+            - url: ${FILE_NAME}
+              sha512: ${SHA512_HASH}
+              size: ${FILE_SIZE}
+          path: ${FILE_NAME}
+          sha512: ${SHA512_HASH}
+          releaseDate: ${RELEASE_DATE}
+          EOL
           
           # Copy AppImage file to root for easier access
           cp "$APPIMAGE_FILE" "./${FILE_NAME}"
