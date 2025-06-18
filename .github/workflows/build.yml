@@ -50,13 +50,49 @@ jobs:
       - name: Make distributables
         run: bunx electron-forge make --platform ${{ matrix.platform }}
 
-      - name: Upload artifacts
+      - name: List build outputs
+        run: |
+          echo "=== Build outputs ==="
+          find out/make -type f | sort
+          echo "=== File sizes ==="
+          find out/make -type f -exec ls -lh {} \;
+
+      - name: Upload artifacts (Windows)
+        if: matrix.os == 'windows-latest'
         uses: actions/upload-artifact@v4
         with:
           name: distributables-${{ matrix.os }}
           path: |
-            out/make/**/*
-            !out/make/**/*.blockmap
+            out/make/squirrel.windows/**/*.exe
+            out/make/squirrel.windows/**/*.nupkg
+            out/make/squirrel.windows/**/RELEASES
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Upload artifacts (macOS)
+        if: matrix.os == 'macos-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: distributables-${{ matrix.os }}
+          path: |
+            out/make/*.dmg
+            out/make/zip/**/*.zip
+            out/make/*.zip
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Upload artifacts (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: distributables-${{ matrix.os }}
+          path: |
+            out/make/deb/**/*.deb
+            out/make/rpm/**/*.rpm
+            out/make/*.deb
+            out/make/*.rpm
+            out/make/*.AppImage
+          if-no-files-found: error
           retention-days: 7
 
   release:

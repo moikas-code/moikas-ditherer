@@ -25,12 +25,14 @@
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage",
     "lint": "tsc --noEmit",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "release": "bun run scripts/create-release.js"
   },
   "devDependencies": {
     "@electron-forge/maker-dmg": "^7.8.1",
     "@electron-forge/maker-rpm": "^7.8.1",
     "@electron-forge/publisher-github": "^7.8.1",
+    "@reforged/maker-appimage": "^5.0.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@types/bun": "latest",

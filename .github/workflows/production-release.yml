@@ -1,9 +1,9 @@
-name: Development Release
+name: Production Release
 
 on:
   push:
-    branches: [ main ]
-  workflow_dispatch:
+    tags:
+      - 'v*.*.*'
 
 permissions:
   contents: write
@@ -37,6 +37,12 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
+      - name: Run tests
+        run: bun run test
+
+      - name: Run type checking
+        run: bun run typecheck
+
       - name: Build application
         run: bun run build
 
@@ -60,7 +66,7 @@ jobs:
             out/make/squirrel.windows/**/*.nupkg
             out/make/squirrel.windows/**/RELEASES
           if-no-files-found: error
-          retention-days: 90
+          retention-days: 30
 
       - name: Upload artifacts (macOS)
         if: matrix.os == 'macos-latest'
@@ -72,7 +78,7 @@ jobs:
             out/make/zip/**/*.zip
             out/make/*.zip
           if-no-files-found: error
-          retention-days: 90
+          retention-days: 30
 
       - name: Upload artifacts (Linux)
         if: matrix.os == 'ubuntu-latest'
@@ -86,16 +92,19 @@ jobs:
             out/make/*.rpm
             out/make/*.AppImage
           if-no-files-found: error
-          retention-days: 90
+          retention-days: 30
 
   release:
-    name: Create Development Release
+    name: Create Production Release
     needs: build
     runs-on: ubuntu-latest
     permissions:
       contents: write
     
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
@@ -104,42 +113,59 @@ jobs:
       - name: Display structure
         run: |
           echo "=== Artifact structure ==="
-          find artifacts -type f -name "*.exe" -o -name "*.deb" -o -name "*.rpm" -o -name "*.dmg" -o -name "*.zip" | sort
+          find artifacts -type f \( -name "*.exe" -o -name "*.deb" -o -name "*.rpm" -o -name "*.dmg" -o -name "*.zip" -o -name "*.AppImage" -o -name "*.nupkg" -o -name "RELEASES" \) | sort
 
-      - name: Delete old development release
-        uses: dev-drprasad/delete-tag-and-release@v1.0
-        with:
-          tag_name: development
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-        continue-on-error: true
+      - name: Get version from tag
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
 
-      - name: Create Development Release
+      - name: Create Production Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: development
-          name: Development Build
+          tag_name: ${{ steps.get_version.outputs.VERSION }}
+          name: Moi Dither ${{ steps.get_version.outputs.VERSION }}
           body: |
-            ## Latest Development Build
-            
-            This is an automated development build from the latest main branch.
-            
-            **⚠️ Warning:** This is a development build and may be unstable.
+            ## Moi Dither ${{ steps.get_version.outputs.VERSION }}
             
             ### Downloads
-            - **Windows:** Download the `.exe` file
-            - **macOS:** Download the `.dmg` or `.zip` file
-            - **Linux:** Download the `.deb` or `.rpm` file
+            - **Windows:** Download the `.exe` file for the installer
+            - **macOS:** Download the `.dmg` file for Intel/Apple Silicon
+            - **Linux:** 
+              - Debian/Ubuntu: Download the `.deb` file
+              - Fedora/RHEL: Download the `.rpm` file
+              - Universal: Download the `.AppImage` file
+            
+            ### Installation Instructions
+            
+            #### Windows
+            1. Download the `.exe` file
+            2. Run the installer and follow the prompts
+            
+            #### macOS
+            1. Download the `.dmg` file
+            2. Open the `.dmg` and drag Moi Dither to Applications
+            
+            #### Linux
+            - **Debian/Ubuntu:** `sudo dpkg -i moi-dither_*.deb`
+            - **Fedora/RHEL:** `sudo rpm -i moi-dither-*.rpm`
+            - **AppImage:** Make executable with `chmod +x` and run
             
             ---
-            Built from commit: ${{ github.sha }}
-            Build date: ${{ github.event.head_commit.timestamp }}
+            
+            ### What's Changed
+            See the [full changelog](https://github.com/${{ github.repository }}/compare/${{ github.event.before }}...${{ github.event.after }})
+            
+            **Full Changelog**: https://github.com/${{ github.repository }}/commits/${{ steps.get_version.outputs.VERSION }}
           draft: false
-          prerelease: true
+          prerelease: false
           files: |
             artifacts/**/*.exe
             artifacts/**/*.deb
             artifacts/**/*.rpm
             artifacts/**/*.dmg
             artifacts/**/*.zip
+            artifacts/**/*.AppImage
+            artifacts/**/*.nupkg
+            artifacts/**/RELEASES
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

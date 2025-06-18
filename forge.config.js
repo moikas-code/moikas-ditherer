@@ -31,8 +31,8 @@ export default {
         authors: "Warren Gates",
         description: "Free app for dithering and creative FX",
         // setupIcon: "./public/icon.ico", // Uncomment when you have proper icon files
-        iconUrl: "https://raw.githubusercontent.com/warrengates/moi-dither/main/public/icon.ico",
-        loadingGif: "./public/loading.gif",
+        setupExe: "moika-ditherer-setup.exe",
+        noMsi: true,
       },
     },
     // macOS
@@ -75,6 +75,21 @@ export default {
           categories: ["Graphics", "Photography"],
           // icon: "./public/icon.png", // Uncomment when you have proper icon files
           bin: "moika-ditherer",
+        },
+      },
+    },
+    // AppImage for universal Linux binary
+    {
+      name: "@reforged/maker-appimage",
+      platforms: ["linux"],
+      config: {
+        options: {
+          name: "moika-ditherer",
+          productName: "MOIKA DITHERER",
+          genericName: "Image Editor",
+          description: "Free app for dithering and creative FX",
+          categories: ["Graphics", "Photography"],
+          // icon: "./public/icon.png", // Uncomment when you have proper icon files
         },
       },
     },

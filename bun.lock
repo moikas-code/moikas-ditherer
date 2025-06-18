@@ -25,6 +25,7 @@
         "@electron-forge/maker-dmg": "^7.8.1",
         "@electron-forge/maker-rpm": "^7.8.1",
         "@electron-forge/publisher-github": "^7.8.1",
+        "@reforged/maker-appimage": "^5.0.0",
         "@testing-library/jest-dom": "^6.6.3",
         "@testing-library/react": "^16.3.0",
         "@types/bun": "latest",
@@ -271,6 +272,10 @@
 
     "@pkgjs/parseargs": ["@pkgjs/parseargs@0.11.0", "", {}, "sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg=="],
 
+    "@reforged/maker-appimage": ["@reforged/maker-appimage@5.0.0", "", { "dependencies": { "@electron-forge/maker-base": "^6.0.0 || ^7.0.0", "@reforged/maker-types": "^1.0.0", "@spacingbat3/lss": "^1.0.0", "semver": "^7.3.8" } }, "sha512-25nli9nt5MVMRladnoJ3uP5W+2KpND5mzA36rc/Duj/R71oGcOj3t9Uoc/dDmaED8afAEeaSYpVE7VPPe9T54A=="],
+
+    "@reforged/maker-types": ["@reforged/maker-types@1.0.1", "", {}, "sha512-gjLr6O7rS8XzjbqCEo/BxT4mrevWuYKdMzc0uO6dNcWDXinfhJVHT3aEZmtMyn1nx+ZbffzpCFPgGNYZtwGXxQ=="],
+
     "@rolldown/pluginutils": ["@rolldown/pluginutils@1.0.0-beta.11", "", {}, "sha512-L/gAA/hyCSuzTF1ftlzUSI/IKr2POHsv1Dd78GfqkR83KMNuswWD61JxGV2L7nRwBBBSDr6R1gCkdTmoN7W4ag=="],
 
     "@rollup/rollup-android-arm-eabi": ["@rollup/rollup-android-arm-eabi@4.43.0", "", { "os": "android", "cpu": "arm" }, "sha512-Krjy9awJl6rKbruhQDgivNbD1WuLb8xAclM4IR4cN5pHGAs2oIMMQJEiC3IC/9TZJ+QZkmZhlMO/6MBGxPidpw=="],
@@ -314,6 +319,8 @@
     "@rollup/rollup-win32-x64-msvc": ["@rollup/rollup-win32-x64-msvc@4.43.0", "", { "os": "win32", "cpu": "x64" }, "sha512-SnGhLiE5rlK0ofq8kzuDkM0g7FN1s5VYY+YSMTibP7CqShxCQvqtNxTARS4xX4PFJfHjG0ZQYX9iGzI3FQh5Aw=="],
 
     "@sindresorhus/is": ["@sindresorhus/is@4.6.0", "", {}, "sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw=="],
+
+    "@spacingbat3/lss": ["@spacingbat3/lss@1.2.0", "", {}, "sha512-aywhxHNb6l7COooF3m439eT/6QN8E/RSl5IVboSKthMHcp0GlZYMSoS7546rqDLmFRxTD8f1tu/NIS9vtDwYAg=="],
 
     "@szmarczak/http-timer": ["@szmarczak/http-timer@4.0.6", "", { "dependencies": { "defer-to-connect": "^2.0.0" } }, "sha512-4BAffykYOgO+5nzBWYwE3W90sBgLJoUPRWWcL8wlyiM8IB8ipJz3UMJ9KXQd1RKQXpKp8Tutn80HZtWsu2u76w=="],
 
