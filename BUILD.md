@@ -12,7 +12,7 @@ This guide explains how to build MOIKA DITHERER for different platforms.
 
 ```bash
 # Clone the repository
-git clone https://github.com/warrengates/moi-dither.git
+git clone https://github.com/moikas-code/moikas-ditherer.git
 cd moi-dither
 
 # Install dependencies

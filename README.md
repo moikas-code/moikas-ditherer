@@ -1,6 +1,6 @@
 # MOIKA DITHERER
 
-Free app for dithering and creative FX, created by Warren Gates and available for macOS, Linux and Windows.
+Free app for dithering and creative FX, created by Moikas and available for macOS, Linux and Windows.
 
 ## Download
 

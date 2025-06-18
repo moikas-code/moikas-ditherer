@@ -3,24 +3,32 @@ import { FuseV1Options, FuseVersion } from '@electron/fuses';
 
 export default {
   packagerConfig: {
-    asar: true,
+    asar: {
+      unpack: "*.{node,dll,so,dylib}"
+    },
     name: "MOIKA DITHERER",
     executableName: "moika-ditherer",
     // icon: "./public/icon", // Uncomment when you have proper icon files
     out: "./dist/packages",
+    prune: false,
     ignore: [
       /^\/src\//,
       /^\/tests\//,
-      /^\/node_modules\/(?!(gif\.js|gifuct-js))/,
       /\.(ts|tsx)$/,
       /\.(test|spec)\./,
       /^\/\.git/,
       /^\/\.vscode/,
       /vitest\.config/,
       /vite\.config/,
+      /^\/scripts/,
+      /^\/\.(github|gitignore)/,
+      /^\/README\.md/,
+      /^\/BUILD\.md/,
     ],
   },
-  rebuildConfig: {},
+  rebuildConfig: {
+    force: true,
+  },
   makers: [
     // Windows (requires Wine and Mono on Linux/macOS)
     {
@@ -28,7 +36,7 @@ export default {
       platforms: ["win32"],
       config: {
         name: "moika_ditherer",
-        authors: "Warren Gates",
+        authors: "Moikas",
         description: "Free app for dithering and creative FX",
         // setupIcon: "./public/icon.ico", // Uncomment when you have proper icon files
         setupExe: "moika-ditherer-setup.exe",
@@ -56,8 +64,8 @@ export default {
       platforms: ["linux"],
       config: {
         options: {
-          maintainer: "Warren Gates",
-          homepage: "https://github.com/warrengates/moi-dither",
+          maintainer: "Moikas",
+          homepage: "https://github.com/moikas-code/moikas-ditherer",
           description: "Free app for dithering and creative FX",
           categories: ["Graphics", "Photography"],
           // icon: "./public/icon.png", // Uncomment when you have proper icon files
@@ -70,7 +78,7 @@ export default {
       platforms: ["linux"],
       config: {
         options: {
-          homepage: "https://github.com/warrengates/moi-dither",
+          homepage: "https://github.com/moikas-code/moikas-ditherer",
           description: "Free app for dithering and creative FX",
           categories: ["Graphics", "Photography"],
           // icon: "./public/icon.png", // Uncomment when you have proper icon files

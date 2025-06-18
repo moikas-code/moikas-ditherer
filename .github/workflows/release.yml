@@ -39,9 +39,13 @@ jobs:
 
       - name: Build application
         run: bun run build
+        env:
+          NODE_ENV: production
 
       - name: Make distributables
         run: bunx electron-forge make --platform ${{ matrix.platform }}
+        env:
+          NODE_ENV: production
 
       - name: List build outputs (Unix)
         if: matrix.os != 'windows-latest'
