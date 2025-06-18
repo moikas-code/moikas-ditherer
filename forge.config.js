@@ -46,7 +46,7 @@ export default {
       config: {
         name: "MOIKA DITHERER",
         // icon: "./public/icon.icns", // Uncomment when you have proper icon files
-        background: "./public/dmg-background.png",
+        // background: "./public/dmg-background.png", // Uncomment when you have proper background image
         format: "ULFO",
       },
     },
