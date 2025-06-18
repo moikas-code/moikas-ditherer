@@ -77,19 +77,6 @@ export default {
         },
       },
     },
-    {
-      name: "@electron-forge/maker-flatpak",
-      platforms: ["linux"],
-      config: {
-        options: {
-          id: "com.warrengates.moika-ditherer",
-          productName: "MOIKA DITHERER",
-          genericName: "Image Dithering Tool",
-          description: "Free app for dithering and creative FX",
-          categories: ["Graphics", "Photography"],
-        },
-      },
-    },
   ],
   plugins: [
     {

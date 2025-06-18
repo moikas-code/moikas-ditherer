@@ -94,7 +94,6 @@ bun run make:linux
 Creates:
 - `moika-ditherer.deb` (Debian package)
 - `moika-ditherer.rpm` (RPM package)
-- `moika-ditherer.flatpak` (Flatpak package)
 
 ## Platform-Specific Requirements
 
@@ -125,17 +124,16 @@ sudo pacman -S wine mono
 - **Building on Linux:** No additional requirements
 - **Debian packages:** `dpkg` and `fakeroot` (usually pre-installed)
 - **RPM packages:** `rpm-build` package
-- **Flatpak:** `flatpak` and `flatpak-builder`
 
 ```bash
 # Ubuntu/Debian
-sudo apt-get install rpm flatpak flatpak-builder
+sudo apt-get install rpm
 
 # Fedora/RHEL
-sudo dnf install rpm-build flatpak flatpak-builder
+sudo dnf install rpm-build
 
 # Arch Linux  
-sudo pacman -S rpm-tools flatpak flatpak-builder
+sudo pacman -S rpm-tools
 ```
 
 ## Output Directory
