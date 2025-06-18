@@ -1,11 +1,10 @@
 {
   "name": "moi-dither",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Free app for dithering and creative FX",
   "author": "Moikas",
   "license": "MIT",
   "main": "dist/main/index.js",
-  "type": "module",
   "private": true,
   "scripts": {
     "dev": "vite",
