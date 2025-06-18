@@ -113,6 +113,9 @@
 .control-actions {
   margin-top: auto;
   padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .reset-button {
@@ -124,5 +127,17 @@
 
 .reset-button:hover {
   background-color: #dc2626;
+  color: #000000;
+}
+
+.export-button {
+  width: 100%;
+  background-color: transparent;
+  border: 1px solid #7c3aed;
+  color: #7c3aed;
+}
+
+.export-button:hover {
+  background-color: #7c3aed;
   color: #000000;
 }

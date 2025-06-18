@@ -13,6 +13,7 @@ interface ControlPanelProps {
   palette: ColorPalette;
   onPaletteChange: (palette: ColorPalette) => void;
   onReset: () => void;
+  onExport?: () => void;
   disabled: boolean;
 }
 
@@ -26,6 +27,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
   palette,
   onPaletteChange,
   onReset,
+  onExport,
   disabled,
 }) => {
   const toggle_effect = (effect: EffectType) => {
@@ -201,6 +203,15 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
         >
           Reset All
         </button>
+        {onExport && (
+          <button
+            className="export-button"
+            onClick={onExport}
+            disabled={disabled}
+          >
+            Export
+          </button>
+        )}
       </div>
     </div>
   );
