@@ -5,6 +5,7 @@
   "author": "Moikas",
   "license": "MIT",
   "main": "dist/main/index.js",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "vite",

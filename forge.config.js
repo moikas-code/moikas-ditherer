@@ -68,8 +68,8 @@ export default {
           homepage: "https://github.com/moikas-code/moikas-ditherer",
           description: "Free app for dithering and creative FX",
           categories: ["Graphics", "Photography"],
-          icon: "./public/moika_ditherer_icon.png"
-          bin: "moika-ditherer",
+          icon: "./public/moika_ditherer_icon.png",
+          bin: "moika-ditherer"
         },
       },
     },
@@ -81,8 +81,8 @@ export default {
           homepage: "https://github.com/moikas-code/moikas-ditherer",
           description: "Free app for dithering and creative FX",
           categories: ["Graphics", "Photography"],
-          icon: "./public/moika_ditherer_icon.png"
-          bin: "moika-ditherer",
+          icon: "./public/moika_ditherer_icon.png",
+          bin: "moika-ditherer"
         },
       },
     },
