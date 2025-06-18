@@ -54,6 +54,7 @@ jobs:
           NODE_ENV: production
           
       - name: Generate update metadata files
+        shell: bash
         run: |
           # Copy app-update.yml to dist for inclusion in builds
           mkdir -p dist
