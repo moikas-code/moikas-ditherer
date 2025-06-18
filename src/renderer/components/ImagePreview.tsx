@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { CanvasImage } from './CanvasImage';
 import './ImagePreview.css';
 
@@ -18,12 +18,21 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({
   const [pan, set_pan] = useState({ x: 0, y: 0 });
   const [is_panning, set_is_panning] = useState(false);
   const [last_mouse_pos, set_last_mouse_pos] = useState({ x: 0, y: 0 });
+  const viewport_ref = useRef<HTMLDivElement>(null);
 
-  const handle_wheel = (e: React.WheelEvent) => {
-    e.preventDefault();
-    const delta = e.deltaY > 0 ? 0.9 : 1.1;
-    set_zoom(prev => Math.max(0.1, Math.min(10, prev * delta)));
-  };
+  useEffect(() => {
+    const viewport = viewport_ref.current;
+    if (!viewport) return;
+
+    const handle_wheel = (e: WheelEvent) => {
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? 0.9 : 1.1;
+      set_zoom(prev => Math.max(0.1, Math.min(10, prev * delta)));
+    };
+
+    viewport.addEventListener('wheel', handle_wheel, { passive: false });
+    return () => viewport.removeEventListener('wheel', handle_wheel);
+  }, []);
 
   const handle_mouse_down = (e: React.MouseEvent) => {
     set_is_panning(true);
@@ -88,8 +97,8 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({
       </div>
 
       <div
+        ref={viewport_ref}
         className="preview-viewport"
-        onWheel={handle_wheel}
         onMouseDown={handle_mouse_down}
         onMouseMove={handle_mouse_move}
         onMouseUp={handle_mouse_up}

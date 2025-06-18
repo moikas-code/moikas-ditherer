@@ -165,7 +165,7 @@ export const scale_image = (
     const canvas = document.createElement('canvas');
     canvas.width = new_width;
     canvas.height = new_height;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
     
     if (ctx) {
       // Use imageSmoothingEnabled for pixelated look
@@ -175,7 +175,7 @@ export const scale_image = (
       const source_canvas = document.createElement('canvas');
       source_canvas.width = source.width;
       source_canvas.height = source.height;
-      const source_ctx = source_canvas.getContext('2d');
+      const source_ctx = source_canvas.getContext('2d', { willReadFrequently: true });
       
       if (source_ctx) {
         source_ctx.putImageData(source, 0, 0);

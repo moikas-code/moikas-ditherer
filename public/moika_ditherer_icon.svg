@@ -1,0 +1,68 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="512" height="512" rx="80" fill="#1a1a1a"/>
+  
+  <!-- Main gradient representing original image -->
+  <defs>
+    <linearGradient id="colorGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF6B6B;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#4ECDC4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#45B7D1;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Dither pattern -->
+    <pattern id="ditherPattern" x="0" y="0" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="4" height="4" fill="white"/>
+      <circle cx="0" cy="0" r="1" fill="black"/>
+      <circle cx="2" cy="2" r="1" fill="black"/>
+      <circle cx="4" cy="0" r="1" fill="black"/>
+      <circle cx="0" cy="4" r="1" fill="black"/>
+      <circle cx="4" cy="4" r="1" fill="black"/>
+    </pattern>
+    
+    <!-- Mask for dither effect -->
+    <mask id="ditherMask">
+      <rect x="0" y="0" width="512" height="512" fill="url(#ditherPattern)"/>
+    </mask>
+  </defs>
+  
+  <!-- Left side - Original gradient -->
+  <rect x="60" y="120" width="180" height="272" rx="8" fill="url(#colorGrad)"/>
+  
+  <!-- Arrow -->
+  <path d="M 270 256 L 310 226 L 310 246 L 350 246 L 350 266 L 310 266 L 310 286 Z" fill="#666"/>
+  
+  <!-- Right side - Dithered version -->
+  <g>
+    <!-- Black background for dithered area -->
+    <rect x="272" y="120" width="180" height="272" rx="8" fill="#000"/>
+    
+    <!-- Dithered gradient overlay -->
+    <rect x="272" y="120" width="180" height="272" rx="8" fill="url(#colorGrad)" mask="url(#ditherMask)" opacity="0.9"/>
+    
+    <!-- Extra dither dots for effect -->
+    <g opacity="0.6">
+      <circle cx="290" cy="140" r="2" fill="white"/>
+      <circle cx="310" cy="150" r="2" fill="white"/>
+      <circle cx="330" cy="135" r="2" fill="white"/>
+      <circle cx="350" cy="145" r="2" fill="white"/>
+      <circle cx="370" cy="138" r="2" fill="white"/>
+      <circle cx="390" cy="148" r="2" fill="white"/>
+      <circle cx="410" cy="142" r="2" fill="white"/>
+      <circle cx="430" cy="152" r="2" fill="white"/>
+      
+      <circle cx="285" cy="370" r="2" fill="white"/>
+      <circle cx="305" cy="365" r="2" fill="white"/>
+      <circle cx="325" cy="375" r="2" fill="white"/>
+      <circle cx="345" cy="368" r="2" fill="white"/>
+      <circle cx="365" cy="378" r="2" fill="white"/>
+      <circle cx="385" cy="372" r="2" fill="white"/>
+      <circle cx="405" cy="367" r="2" fill="white"/>
+      <circle cx="425" cy="377" r="2" fill="white"/>
+    </g>
+  </g>
+  
+  <!-- Text -->
+  <text x="256" y="80" font-family="Arial, sans-serif" font-size="42" font-weight="bold" text-anchor="middle" fill="white">MOIKA</text>
+  <text x="256" y="450" font-family="Arial, sans-serif" font-size="32" text-anchor="middle" fill="#666">DITHERER</text>
+</svg>

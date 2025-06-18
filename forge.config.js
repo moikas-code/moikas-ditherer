@@ -8,7 +8,7 @@ export default {
     },
     name: "MOIKA DITHERER",
     executableName: "moika-ditherer",
-    // icon: "./public/icon", // Uncomment when you have proper icon files
+    icon: "./public/moika_ditherer_icon", // Without extension, Electron will look for .ico, .icns, .png
     out: "./dist/packages",
     prune: false,
     ignore: [
@@ -68,7 +68,7 @@ export default {
           homepage: "https://github.com/moikas-code/moikas-ditherer",
           description: "Free app for dithering and creative FX",
           categories: ["Graphics", "Photography"],
-          // icon: "./public/icon.png", // Uncomment when you have proper icon files
+          icon: "./public/moika_ditherer_icon.png"
           bin: "moika-ditherer",
         },
       },
@@ -81,7 +81,7 @@ export default {
           homepage: "https://github.com/moikas-code/moikas-ditherer",
           description: "Free app for dithering and creative FX",
           categories: ["Graphics", "Photography"],
-          // icon: "./public/icon.png", // Uncomment when you have proper icon files
+          icon: "./public/moika_ditherer_icon.png"
           bin: "moika-ditherer",
         },
       },
@@ -97,7 +97,7 @@ export default {
           genericName: "Image Editor",
           description: "Free app for dithering and creative FX",
           categories: ["Graphics", "Photography"],
-          // icon: "./public/icon.png", // Uncomment when you have proper icon files
+          icon: "./public/moika_ditherer_icon.png"
         },
       },
     },

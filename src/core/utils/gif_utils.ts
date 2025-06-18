@@ -7,7 +7,7 @@ export const parse_gif_file = async (arrayBuffer: ArrayBuffer): Promise<Animated
   
   const gif_frames: GifFrame[] = [];
   const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext('2d', { willReadFrequently: true });
   
   if (!ctx) throw new Error('Could not create canvas context');
   

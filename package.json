@@ -1,6 +1,6 @@
 {
   "name": "moi-dither",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Free app for dithering and creative FX",
   "author": "Moikas",
   "license": "MIT",
@@ -40,7 +40,9 @@
     "@types/node": "^24.0.3",
     "@vitejs/plugin-react": "^4.5.2",
     "electron": "^36.4.0",
+    "electron-icon-builder": "^2.0.1",
     "jsdom": "^26.1.0",
+    "sharp": "^0.34.2",
     "vite": "^6.3.5",
     "vitest": "^3.2.4"
   },
